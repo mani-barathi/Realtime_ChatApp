@@ -78,7 +78,7 @@ function setSocket(){
 				renderMessage(data.data)
 				posts.scrollTop = posts.scrollHeight
 			}else
-				showNotifications(data.message)
+				showNotifications(data.message,'red',5000)
 		} 
 	}
 }
@@ -90,7 +90,6 @@ async function sendMessage(event) {
 	socket.send(JSON.stringify(message))
 
 	textInput.value = ''
-	// textInput.blur()
 }
 
 // fetch messages from server (previous messages are also fetched when the user us scrolled to top)
@@ -108,21 +107,24 @@ async function getMessage(){
 		})
 		let responseData = await response.json()
 		console.log(responseData)
-		if (responseData.has_more)
-			pageNum = responseData.next_page
-		hasMore = responseData.has_more
+		if(responseData.is_done){
+			if (responseData.has_more)
+				pageNum = responseData.next_page
+			hasMore = responseData.has_more
 
-		// if this is the first time fetching messages append it else prepand it
-		if(isFirstFetch){
-			for(let message of responseData.data)
-				renderMessage(message)
-			isFirstFetch = false
-			posts.scrollTop = posts.scrollHeight
-		}else{
-			for(let message of responseData.data.reverse())
-				renderMessage(message,false)
-			posts.scrollTop = posts.scrollTop + (10*16)  // after loading slightly scroll down
-		}
+			// if this is the first time fetching messages append it else prepand it
+			if(isFirstFetch){
+				for(let message of responseData.data)
+					renderMessage(message)
+				isFirstFetch = false
+				posts.scrollTop = posts.scrollHeight
+			}else{
+				for(let message of responseData.data.reverse())
+					renderMessage(message,false)
+				posts.scrollTop = posts.scrollTop + (10*16)  // after loading slightly scroll down
+			}
+		}else
+			showNotifications("something went wrong !!",'red',5000)
 
 		toggleLoadingSpinner(false)
 		isFetching = false

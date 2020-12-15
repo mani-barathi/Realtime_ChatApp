@@ -21,6 +21,7 @@ def getMessage(request):
 	data = {
 		"has_more":has_more,
 		"data":serialized_messages[::-1],
+		"is_done":True
 	}
 
 	if next_page is not False:

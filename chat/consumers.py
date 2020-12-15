@@ -26,10 +26,10 @@ class ChatConsumer(WebsocketConsumer):
 
 
     def receive(self, text_data):
-        data = json.loads(text_data)
-        print(data)
-
         try:
+            data = json.loads(text_data)
+            print(data)
+            
             new_message = Message(user=data["user"],text=data["text"])
             new_message.save()
 
