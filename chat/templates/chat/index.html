@@ -1,0 +1,89 @@
+{% extends 'chat/base.html' %}
+
+{% block content %} 
+
+<!-- if no name exists in local storage -->
+<div class="main-container">
+	<div class="main-wrapper">
+		<h1 class="font-weight-light text-center">Welcome to RealTime Chat Application</h1>
+		<form onsubmit="setUserName(event)" autocomplete="off">
+			<div class="row align-items-center">
+				<input type="text" class="text-input col name-input" placeholder="Enter Your Name" required>
+				<span onclick="setUserName()" class="ml-2 send-btn">
+					<svg width="1.22em" height="1.22em" viewBox="0 0 16 16" class="bi bi-arrow-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+					</svg>
+				</span>
+			</div>
+			
+		</form>	
+	</div>
+</div>
+
+
+<!-- notfications -->
+<div class="slide-msg"></div>
+
+<!-- logout modal -->
+<div class="dropdown shadow">
+	<p class="text-center">Do you want to logout?</p>
+	<div class="d-flex justify-content-around">
+		<div class="logout-btn px-3 py-1" onclick="logoutUser()">Yes</div>
+		<div class="logout-btn px-3 py-1" onclick="toggleLogoutModal()">No</div>
+	</div>
+</div>
+
+
+<!-- if name exists in local storage -->
+<div class="chat-application-container">
+
+	<div class="row justify-content-center">
+		<div class="chat-container-wrappers mt-2">
+			<div class="d-flex align-items-center justify-content-between">
+				<h3 >Chat Room</h3>
+				<div class="mr-1 dropdown-container" style="cursor: pointer;" onclick="toggleLogoutModal()">
+						<svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" fill="currentColor" class="bi bi-door-closed" viewBox="0 0 16 16">
+						  <path fill-rule="evenodd" d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V2zm1 13h8V2H4v13z"/>
+						  <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0z"/>
+						</svg>
+	  			</div>						
+			</div>
+			<hr class="mb-1 mt-0">
+		</div>
+	</div>
+
+	<div class="row justify-content-center posts">
+		<div class="chat-container-wrappers py-0" >
+			<!-- Loading Spinner  -->
+			<div class="d-none justify-content-center mt-1 mb-1 loading-spinner" style="font-size: smaller;">
+			  <div class="spinner-border" role="status">
+			    <span class="sr-only">Loading...</span>
+			  </div>
+			</div>
+
+			<div id="posts-container">
+				<!-- all the messages go here!! -->
+			</div>
+			
+		</div>
+	</div>
+
+	<!-- form input for message -->
+	<div class="row justify-content-center">
+		<div class="chat-container-wrappers mb-2">
+			<form onsubmit="sendMessage(event)" autocomplete="off" class="col">
+				<div class="row align-items-center">
+					<input type="text" name="text" class="text-input col message-input" placeholder="type a message..." required >
+					<button type="submit" class=" ml-2 btn font-weight-bold">
+						<svg width="1.22em" height="1.22em" viewBox="0 0 16 16" class="bi bi-arrow-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+						<path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+						</svg>
+					</button>
+				</div>
+				
+			</form>	
+		</div>		
+	</div>
+</div>
+
+{% endblock %} 

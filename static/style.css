@@ -1,0 +1,156 @@
+body{
+	scroll-behavior: smooth;
+	background-color: #74EBD5;
+	background-image: linear-gradient(90deg, #74EBD5 0%, #9FACE6 100%);
+	height: 100vh;
+	width: 100%;
+}
+
+.main-container{
+	display: none;
+	align-items: center;
+	flex-direction: column;
+	justify-content: center;
+	height: 100vh;
+	width: 100%;
+	transition: opacity 0.5s ease;
+	opacity: 0;
+}
+.show-main-container{
+	display: flex;
+	opacity: 1;
+}
+.main-wrapper{
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	justify-content: center;
+	transform: translateY(-20%);
+}
+form{
+	margin-top: 1rem;
+	padding: 0.5rem 1rem;
+	border-radius: 5px;
+	background: rgba(255,255,255,0.35);
+	backdrop-filter:blur(40px);
+	background-clip: padding-box;
+	border: 2px solid transparent;
+	width: 100%;
+	max-width: 300px;
+}
+.text-input,.send-btn{
+	background:transparent;
+	padding: 0.5rem 1rem;
+	border:none;
+	outline: none;
+}
+
+.send-btn{
+	cursor: pointer;
+}
+
+
+/* Chat Application container */
+
+.chat-application-container{
+	display: none;
+	flex-direction: column;
+	height: 100vh;
+	width: 100%;
+	padding: 0;
+}
+
+.chat-container-wrappers{
+	padding: 0.2rem 1rem;
+	width: 100%;
+	max-width: 600px;
+}
+
+
+.dropdown-container{
+	position: relative;
+}
+
+.dropdown{
+	width: 100%;
+	max-width: 280px;
+	display: none;
+	position: fixed;
+	padding: 1rem 2rem;
+    top:50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+	z-index: 10;
+	border-radius: 5px;
+	background-color: rgba(255,255,255,0.5);
+	backdrop-filter:blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+	background-clip: padding-box;
+	border: 2px solid transparent;
+}
+
+.show-dropdown{
+	display: block;
+}
+
+.logout-btn{
+	display: inline-block;
+	cursor: pointer;
+	padding: 1rem
+}
+
+.logout-btn:hover{
+	color: teal;
+	transform: translateY(-0.2rem);
+}
+
+.posts{
+	flex: 1;
+	overflow-y: scroll;
+}
+.posts::-webkit-scrollbar {
+  display: none;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+.posts {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+.msg{
+	margin-bottom: 0.5rem;	
+	margin-top: 0.5rem;	
+	padding: 0.5rem 1rem;
+	border-radius: 5px;
+	background: rgba(255,255,255,0.2);
+	backdrop-filter:blur(10px);
+	background-clip: padding-box;
+	border: 2px solid transparent;
+}
+
+
+.slide-msg{
+    position: fixed;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(-200%);
+    padding: 1rem 2rem;
+    background: darkgrey;
+    border-radius: 5px;
+    color: white;
+    z-index: -1;
+    transition: transform 0.3s ease;
+    width: 90%;
+    max-width: 450px;
+}
+.show{
+    transform: translateX(-50%) translateY(0%);
+    z-index: 2;
+}
+
+.light-green{
+	background: #28B463
+}
+.red{
+	background: #EC7063;
+}
