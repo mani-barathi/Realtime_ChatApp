@@ -6,11 +6,13 @@ const textInput = document.querySelector('.message-input')
 const postContainer = document.getElementById('posts-container')
 const posts = document.querySelector('.posts')
 const loadingSpinner = document.querySelector('.loading-spinner')
+
 const popupDiv = document.querySelector('.slide-msg')
+const scrollDownBtn = document.querySelector('.scroll-down-btn')
 
 let username, socket
 let hasMore = true
-let pageNum = 1 ,paginateBy = 10
+let pageNum = 1 ,paginateBy = 15
 let isFirstFetch = true
 let isFetching = false
 const chatSocketURL = `ws://${window.location.host}/ws/chat`
@@ -42,7 +44,6 @@ function renderMessage(data,append=true) {
 		postContainer.append(div)
 	else
 		postContainer.prepend(div)
-	
 }
 
 function showNotifications(message,bg_color,timeOut){
@@ -76,7 +77,13 @@ function setSocket(){
 			data = JSON.parse(e.data)
 			if(data.isdone){
 				renderMessage(data.data)
-				posts.scrollTop = posts.scrollHeight
+				const isAtBottom = (posts.scrollHeight - posts.scrollTop) == (posts.offsetHeight) 
+				if(!isAtBottom){
+					scrollDownBtn.classList.add('text-color-green')
+				}else{
+					posts.scrollTop = posts.scrollHeight	
+				}
+				
 			}else
 				showNotifications(data.message,'red',5000)
 		} 
@@ -121,7 +128,7 @@ async function getMessage(){
 			}else{
 				for(let message of responseData.data.reverse())
 					renderMessage(message,false)
-				posts.scrollTop = posts.scrollTop + (10*16)  // after loading slightly scroll down
+				posts.scrollTop = posts.scrollTop + (5*16)  // after loading slightly scroll down
 			}
 		}else
 			showNotifications("something went wrong !!",'red',5000)
@@ -146,11 +153,21 @@ function toggleLogoutModal(){
 }
 
 posts.onscroll = (e) =>{
-	if(event.target.scrollTop == 0){
-		console.log('Scrolled to Top')
+	if(event.target.scrollTop == 0){			// at the top
 		if(hasMore && !isFetching)
 			getMessage()
+	}else if((posts.scrollHeight - posts.scrollTop) == (posts.offsetHeight)){  // at bottom
+		scrollDownBtn.classList.remove('text-color-green')
+		scrollDownBtn.style.display ='none'
+	}else{										// in between
+		scrollDownBtn.style.display ='block'	
 	}
+}
+
+function scrollToBottom(){   // hides the go to bottom btn
+	scrollDownBtn.classList.remove('text-color-green')
+	scrollDownBtn.style.display ='none'
+	posts.scrollTop = posts.scrollHeight
 }
 
 // the below function are just to handle the user related tasks, such as 

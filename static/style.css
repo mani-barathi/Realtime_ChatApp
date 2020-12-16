@@ -37,6 +37,7 @@ form{
 	border: 2px solid transparent;
 	width: 100%;
 	max-width: 300px;
+	position: relative;
 }
 .text-input,.send-btn{
 	background:transparent;
@@ -107,6 +108,7 @@ form{
 .posts{
 	flex: 1;
 	overflow-y: scroll;
+	scroll-behavior: smooth;
 }
 .posts::-webkit-scrollbar {
   display: none;
@@ -126,8 +128,12 @@ form{
 	backdrop-filter:blur(10px);
 	background-clip: padding-box;
 	border: 2px solid transparent;
+	/*width: fit-content;
+	min-width: 30%;
+	max-width: 85%;*/
 }
 
+/*--------------------------------------------------------*/
 
 .slide-msg{
     position: fixed;
@@ -153,4 +159,21 @@ form{
 }
 .red{
 	background: #EC7063;
+}
+.text-color-green{
+	color: #239B56;
+}
+/*--------------------------------------------*/
+
+.scroll-down-btn{
+	position: absolute;
+	top: -4rem;
+	right: 1rem;
+	z-index: 2;
+	border-radius: 50%;
+	cursor: pointer;
+	transition: : display 0.2s ease-in;
+}
+.scroll-down-btn:hover{
+	transform: scale(1.1);
 }
