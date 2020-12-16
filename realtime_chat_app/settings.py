@@ -75,10 +75,19 @@ WSGI_APPLICATION = 'realtime_chat_app.wsgi.application'
 ASGI_APPLICATION = 'realtime_chat_app.asgi.application'
 
 # this cannot be used in production
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels.layers.InMemoryChannelLayer"
+#     }
+# }
+
 CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
-    }
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
 }
 
 # Database
