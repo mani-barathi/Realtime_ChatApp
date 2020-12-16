@@ -66,7 +66,7 @@ function showNotifications(message,bg_color,timeOut){
 	})
 }
 
-// all socket functions
+// all socket events is intialized inside this function
 function setSocket(){
 	socket = new WebSocket(chatSocketURL);
 
@@ -75,7 +75,7 @@ function setSocket(){
 	}
 
 	socket.onclose = (e) =>{
-		if(!e.wasClean)
+		if(!e.wasClean)		// connection is closed abruptly
 			showNotifications(`Connection Lost.. Try refershing !`,"red",5000)
 	}
 
@@ -100,9 +100,7 @@ function setSocket(){
 async function sendMessage(event) {
 	event.preventDefault()
 	const message = {'text':textInput.value, "user":username}
-	
-	socket.send(JSON.stringify(message))
-
+	socket.send(JSON.stringify(message))			// sending message to socket
 	textInput.value = ''
 }
 
@@ -122,9 +120,10 @@ async function getMessage(){
 		let responseData = await response.json()
 		console.log(responseData)
 		if(responseData.is_done){
-			if (responseData.has_more)
-				pageNum = responseData.next_page
+			// if there is more message to load, then update pageNum to next_page
 			hasMore = responseData.has_more
+			if (hasMore)		
+				pageNum = responseData.next_page
 
 			// if this is the first time fetching messages append it else prepand it
 			if(isFirstFetch){
@@ -132,7 +131,7 @@ async function getMessage(){
 					renderMessage(message)
 				isFirstFetch = false
 				posts.scrollTop = posts.scrollHeight
-			}		// if this is fetch for previous messages
+			}		// if this is a fetch for previous messages
 			else{
 				let previousHeight = posts.scrollHeight
 				for(let message of responseData.data.reverse())
@@ -180,10 +179,6 @@ function scrollToBottom(){   // hides the go to bottom btn
 	posts.scrollTop = posts.scrollHeight
 }
 
-// the below function are just to handle the user related tasks, such as 
-// getting username and saving it
-// or removing user 
-// and showing appropriate div's because everything is handled in single page
 
 function setUserName(event=null){
 	if (event)
@@ -214,13 +209,13 @@ function logoutUser(){
 
 function startingPoint(){
 	let temp = localStorage.getItem('username')
-	if(temp){
+	if(temp){		// if there is a username exists in localStorage show chatContainer
 		username = temp
 		chatAppContainer.style.display = 'flex'
 		setSocket()
 		getMessage()
 	}
-	else{
+	else{			// if no name exists show mainContainer and ask for username
 		mainContainer.classList.add('show-main-container')
 	}
 }
