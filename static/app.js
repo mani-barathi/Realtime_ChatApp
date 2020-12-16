@@ -35,10 +35,17 @@ function getCookie(name) {  // to generate a csrf token
 
 function renderMessage(data,append=true) {
 	let div = document.createElement('div')
-	div.classList.add('msg');
-	let innerTags = `
+	div.classList.add('msg')
+	let innerTags
+	if(data.user === username){
+		innerTags = `
+			<span class="font-weight-bold d-block "><u>${data.user}</u></span class="font-weight-bold">
+			<span class="">${data.text}</span>`
+	}else{
+		innerTags = `
 			<span class="font-weight-bold d-block">${data.user}</span class="font-weight-bold">
 			<span class="">${data.text}</span>`
+	}
 	div.innerHTML  = innerTags
 	if(append)
 		postContainer.append(div)
@@ -76,8 +83,8 @@ function setSocket(){
 		if(e.data){
 			data = JSON.parse(e.data)
 			if(data.isdone){
+				const isAtBottom = ((posts.scrollHeight - posts.scrollTop) - (posts.offsetHeight)) <=(14*16)
 				renderMessage(data.data)
-				const isAtBottom = (posts.scrollHeight - posts.scrollTop) == (posts.offsetHeight) 
 				if(!isAtBottom){
 					scrollDownBtn.classList.add('text-color-green')
 				}else{
@@ -125,10 +132,13 @@ async function getMessage(){
 					renderMessage(message)
 				isFirstFetch = false
 				posts.scrollTop = posts.scrollHeight
-			}else{
+			}		// if this is fetch for previous messages
+			else{
+				let previousHeight = posts.scrollHeight
 				for(let message of responseData.data.reverse())
 					renderMessage(message,false)
-				posts.scrollTop = posts.scrollTop + (5*16)  // after loading slightly scroll down
+				let differenceHeight = posts.scrollHeight - previousHeight
+				posts.scrollTop = differenceHeight - (7*16)
 			}
 		}else
 			showNotifications("something went wrong !!",'red',5000)
@@ -179,7 +189,7 @@ function setUserName(event=null){
 	if (event)
 		event.preventDefault()
 	const inputField = document.querySelector('.name-input')
-	username = inputField.value
+	username = inputField.value.toLowerCase()
 	if(username){
 		localStorage.setItem('username',username)
 		inputField.value = ''
@@ -198,7 +208,7 @@ function logoutUser(){
 	socket = null
 	isFirstFetch = true
 	pageNum = 1
-	showNotifications(`logged out succesful`,'light-green',2000)
+	showNotifications("You have been successfully logged out!",'light-green',3000)
 	startingPoint()
 }
 
