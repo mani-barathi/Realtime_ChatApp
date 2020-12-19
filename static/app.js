@@ -106,7 +106,7 @@ async function sendMessage(event) {
 
 // fetch messages from server (previous messages are also fetched when the user us scrolled to top)
 async function getMessage(){
-	const csrftoken = getCookie('csrftoken')
+	const csrftoken = csrf_token;
 	let data = {"page_num":pageNum , "paginate_by":paginateBy}
 
 	try{

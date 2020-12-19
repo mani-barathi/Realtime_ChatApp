@@ -91,10 +91,13 @@
 						</svg>
 					</button>
 				</div>
-				
+				{% csrf_token %}
 			</form>	
 		</div>		
 	</div>
 </div>
 
+<script>
+    const csrf_token = document.querySelector('[name=csrfmiddlewaretoken]').value
+</script>
 {% endblock %} 
